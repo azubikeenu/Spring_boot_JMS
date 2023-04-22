@@ -12,6 +12,7 @@ public class SpringJmsApplication{
 
 
     public static void main(String[] args) throws Exception {
+        // setup an embedded activeMQ server
         final ActiveMQServer server = ActiveMQServers.newActiveMQServer(new ConfigurationImpl().setPersistenceEnabled(false)
                 .setJournalDirectory("target/data/journal").setSecurityEnabled(false)
                 .addAcceptorConfiguration("invm", "vm://1"));
