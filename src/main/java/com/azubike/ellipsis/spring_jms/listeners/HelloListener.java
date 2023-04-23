@@ -21,12 +21,13 @@ import java.util.UUID;
 public class HelloListener {
     private final JmsTemplate jmsTemplate;
     @JmsListener(destination = JmsConfig.MY_QUEUE)
-    public void listen(@Payload  HelloWorldMessage helloWorldMessage , @Headers MessageHeaders headers , Message message){
+    public void listen(@Payload HelloWorldMessage helloWorldMessage , @Headers MessageHeaders headers , Message message){
 //        log.info("Consuming message : {}" , helloWorldMessage);
 
     }
     @JmsListener(destination = JmsConfig.SEND_RECEIVE_QUEUE)
-    public void listenAndReply(@Payload  HelloWorldMessage helloWorldMessage , @Headers MessageHeaders headers , Message message) throws JMSException {
+    public void listenAndReply(@Payload  HelloWorldMessage helloWorldMessage , @Headers MessageHeaders headers , Message message,
+                               org.springframework.messaging.Message springMessage) throws JMSException {
         final HelloWorldMessage replied_message = HelloWorldMessage.builder().id(UUID.randomUUID()).message("This is a replied message").build();
         log.info("Consuming message : {}" , helloWorldMessage);
         jmsTemplate.convertAndSend(message.getJMSReplyTo() , replied_message);
